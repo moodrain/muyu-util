@@ -53,7 +53,7 @@ showElement | $show(elem, [inline]) | the same with elem.style.display = 'block'
 changeElementToShow | $change(elem, elems) | hide all elems and show elem
 getProperty | $pro(obj, property, [split]) | the default split is '.' 
 valueExpress | $vex(exp, def, justify, modify) | too hard to explain
-valueDefault | $vde(...exp) | get the first exp that is true
+valueDefault | $vdf(...exp) | get the first exp that is true
 trim | $trim(str, [mode]) | mode can be 'left', 'right' or 'both' (default)
 transitionNumber | $tran(elem, increment, [second]) | the default second is 1
 
