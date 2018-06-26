@@ -26,10 +26,10 @@ muyu-util
 
 util | function | detail
 ---- | --- |---
-ajax | $ajax(method, url, data, header, success, error) | all ajax function is withCredentials
-ajax-get | $get(url, success, error) | status code isn't 200 and 'code' in reponse json isn't 0 or 200 will call error  
-ajax-get | $get(url, data, success, error) | data are key-values to generate query string after url
-ajax-post | $post(url, data, success, error, type) | type can be 'form' (default) or 'json' 
+ajax | $ajax(method, url, data, header, success, [error], [withCredentials]) | all ajax function is withCredentials by default
+ajax-get | $get(url, success, [error]) | status code isn't 200 and 'code' in reponse json isn't 0 or 200 will call error  
+ajax-get | $get(url, data, success, [error], [withCredentials]) | data are key-values to generate query string after url
+ajax-post | $post(url, data, success, [error], [type], [withCredentials]) | type can be 'form' (default) or 'json' 
 getElement | $e(elem) | the same with document.getElementById()
 get/setValue | $v(elem, [val]) | get value from attr of value of innerHTML, set value to attr of value,innerHTML,href,src according to tagName
 query | $q(name, [url]) | get query param in url

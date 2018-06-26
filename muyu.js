@@ -1,19 +1,21 @@
 function $l(...toLog) {
+	if(toLog.length === 1)
+		toLog = toLog[0]
 	console.log(toLog)
 }
-function $get(url, successOrData, errorOrSuccess, error) {
+function $get(url, successOrData, errorOrSuccess, error, withCredentials) {
 	let request = new XMLHttpRequest()
 	let Success
 	let Error
 	let data
 	if(typeof successOrData == 'function') {
 		Success = successOrData
-		Error = errorOrSuccess
+		Error = errorOrSuccess !== undefined ? errorOrSuccess : () => {}
 	}
 	else if(typeof successOrData == 'object') {
 		data = successOrData
 		Success = errorOrSuccess
-		Error = error
+		Error = error !== undefined ? error : () => {}
 	}
 	if(data) {
 		url += '?'
@@ -22,10 +24,14 @@ function $get(url, successOrData, errorOrSuccess, error) {
 		url = url.slice(0, -1)
 	}
 	request.open('GET', url)
-	request.withCredentials = true
+	request.withCredentials = withCredentials !== undefined ? withCredentials : true
 	request.onreadystatechange = () => {
 		if(request.readyState === 4) {
-			rs = JSON.parse(request.responseText)
+			try {
+				rs = JSON.parse(request.responseText)
+			} catch(e) {
+				rs = request.responseText
+			}
 			if(request.status === 200) {
 				if(!rs.hasOwnProperty('code'))
 					Success(rs)
@@ -40,11 +46,12 @@ function $get(url, successOrData, errorOrSuccess, error) {
 	}
 	request.send()
 }
-function $post(url, data, success, error, type) {
+function $post(url, data, success, error, type, withCredentials) {
 	let request = new XMLHttpRequest()
 	let postData = ''
+	error = error ? error : () => {}
 	request.open('POST', url)
-	request.withCredentials = true
+	request.withCredentials = withCredentials !== undefined ? withCredentials : true
 	if(type === undefined || type == 'form') {
 		request.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
 		if(typeof(data) == 'object') {
@@ -59,7 +66,11 @@ function $post(url, data, success, error, type) {
 	}
 	request.onreadystatechange = () => {
 		if(request.readyState === 4) {
-			rs = JSON.parse(request.responseText)
+			try {
+				rs = JSON.parse(request.responseText)
+			} catch(e) {
+				rs = request.responseText
+			}
 			if(request.status === 200) {
 				if(!rs.hasOwnProperty('code'))
 					success(rs)
@@ -74,15 +85,20 @@ function $post(url, data, success, error, type) {
 	}
 	request.send(postData)
 }
-function $ajax(method, url, data, header, success, error) {
+function $ajax(method, url, data, header, success, error, withCredentials) {
 	let request = new XMLHttpRequest()
+	error = error ? error : () => {}
 	request.open(method.toUpperCase(), url)
 	for(key in header)
 		request.setRequestHeader(key, header[key])
-	request.withCredentials = true
+	request.withCredentials = withCredentials !== undefined ? withCredentials : true
 	request.onreadystatechange = () => {
 		if(request.readyState === 4) {
-			rs = JSON.parse(request.responseText)
+			try {
+				rs = JSON.parse(request.responseText)
+			} catch(e) {
+				rs = request.responseText
+			}
 			if(request.status === 200) {
 				if(!rs.hasOwnProperty('code'))
 					success(rs)
