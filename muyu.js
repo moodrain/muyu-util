@@ -122,7 +122,12 @@ function $v(elem, val) {
     if(val === undefined)
 		return elem.value === undefined ? elem.innerHTML : elem.value
 	if(tag == 'input' || tag == 'select' || tag == 'textarea')
-		elem.value = val
+	{
+		if(elem.type == 'checkbox')
+			elem.checked = val
+		else
+			elem.value = val
+	}
 	else if(tag == 'a')
 		elem.href = val
 	else if(tag == 'img')
@@ -160,10 +165,10 @@ function $ck(name, value, second) {
         return null
     }
 }
-function $fd(prefix, fields) {
+function $fd(fields, prefix) {
 	let data = {}
 	fields.forEach(field => {
-		data[field] = document.querySelector('#' + prefix + '-' + field).value
+		data[field] = document.querySelector('#' + (prefix !== undefined ? (prefix + '-' + field) : field)).value
 	})
 	return data
 }
@@ -242,12 +247,19 @@ function $vex(exp, def, justify, modify) {
 	return rs
 }
 function $vdf(...exp) {
-	let elem
-	exp.forEach(e => {
-		if(e)
-			elem = e
-	})
+	let elem = exp[exp.length - 1]
+	for(let i = 0;i < exp.length;i++)
+		if(exp[i])
+			return exp[i]
 	return elem
+}
+function $vlt(obj, ...exp) {
+	for(let i = 0;i < exp.length;i++)
+		if(obj && exp[i](obj))
+			obj = exp[i](obj)
+		else
+			break
+	return obj
 }
 function $date(date) {
     if(typeof date === 'number')
