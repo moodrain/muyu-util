@@ -168,7 +168,20 @@ function $ck(name, value, second) {
 function $fd(fields, prefix) {
 	let data = {}
 	fields.forEach(field => {
-		data[field] = document.querySelector('#' + (prefix !== undefined ? (prefix + '-' + field) : field)).value
+		let tag = document.querySelectorAll('#' + (prefix !== undefined ? (prefix + '-' + field) : field))
+		let finished = []
+		if(tag.length == 1)
+			data[field] = tag[0].value
+		else {
+			if(!finished[tag]) {
+				data[field] = []
+				tag.forEach(elem => {
+					if(elem.checked)
+						data[field].push(elem.value)
+				})
+				finished[tag] = true	
+			}
+		}
 	})
 	return data
 }
