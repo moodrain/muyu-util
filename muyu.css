@@ -1,6 +1,6 @@
 * {margin: 0; padding: 0;}
 .hidden {display: none}
-.muyu-notify {float: left;position: fixed;top: -40px;margin: 0 auto;text-align: center;width: 100%;height: 40px;background: lightskyblue;color: white;line-height: 40px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;transition: top 0.8s}
+.muyu-notify {float: left;position: fixed;z-index: 10000;top: -40px;margin: 0 auto;text-align: center;width: 100%;height: 40px;background: lightskyblue;color: white;line-height: 40px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;transition: top 0.8s}
 .muyu-notify-error {background: red !important;color: white !important;}
 .muyu-notify-open {top: 0px;}
 .muyu-notify-close {top: -40px;}
